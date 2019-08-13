@@ -8,6 +8,7 @@ warnings.filterwarnings("ignore")
 
 DEFAULT_DOWNLOAD_LIMIT = 50
 DEFAULT_OUTPUT_FOLDER = "/output"
+DEFAULT_PREFIX = "aug"
 
 if __name__ == '__main__':
 
@@ -35,6 +36,13 @@ if __name__ == '__main__':
                         default=None
                         )
 
+    parser.add_argument('-prefix',
+                        '-p',
+                        help='Prefix for augmented images. (default: %s)'
+                            % DEFAULT_PREFIX,
+                        type=str
+                        )
+
     args = parser.parse_args()
 
     # print(args)
@@ -42,7 +50,8 @@ if __name__ == '__main__':
     generator = DatasetGenerator(
         folder_path=args.folder,
         num_files=args.limit,
-        folder_destination=args.folder + DEFAULT_OUTPUT_FOLDER if args.dest is None else args.dest)
+        folder_destination=args.folder + DEFAULT_OUTPUT_FOLDER if args.dest is None else args.dest,
+        prefix=args.prefix)
 
     if 'rotate' in DEFAULT_OPERATIONS:
         generator.rotate(probability=DEFAULT_ROTATE_PROBABILITY,
